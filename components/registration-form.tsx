@@ -56,7 +56,7 @@ export default function RegistrationForm() {
           className="text-center mb-12"
         >
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#003893] mb-4 text-balance">
-            Somos El Partido del ORDEN
+            Somos el partido del ORDEN
           </h2>
           <p className="text-xl sm:text-2xl text-[#003893] font-semibold text-pretty">Únete al equipo</p>
         </motion.div>
@@ -145,8 +145,8 @@ export default function RegistrationForm() {
 
                 {/* Role Selection */}
                 <div>
-                  <label htmlFor="role" className="block text-sm font-semibold text-gray-700 mb-2">
-                    ¿Haces parte del equipo? Regístrate aquí <span className="text-red-500">*</span>
+                  <label htmlFor="role" className="block text-lg font-semibold text-gray-700 mb-2">
+                    ¿Cúal es tu función dentro de la organización? <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"

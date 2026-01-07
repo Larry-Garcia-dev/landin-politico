@@ -22,7 +22,6 @@ export default function HeroSection() {
                 transition={{ delay: 0.2, duration: 0.8 }}
                 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-[#003893] leading-tight text-balance"
               >
-                RECUERDA, MARCA: CÁMARA
               </motion.h1>
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
@@ -30,7 +29,7 @@ export default function HeroSection() {
                 transition={{ delay: 0.4, duration: 0.8 }}
                 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-[#003893] italic text-pretty"
               >
-                Con Humildad se Trabaja por la Gente
+                
               </motion.p>
             </div>
 
