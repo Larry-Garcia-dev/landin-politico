@@ -28,7 +28,7 @@ export default function RegistrationForm() {
     try {
       // Envío de datos al Webhook
       const response = await fetch(
-        "https://n8n.magnificapec.com/webhook/5358648a-b54c-4282-8a69-2e24cdacd683-politico",
+        "https://n8n.magnificapec.com/webhook/c80d7a7c-f9a8-4a5c-9c08-0975b0a0d5fc-politico",
         {
           method: "POST",
           headers: {
