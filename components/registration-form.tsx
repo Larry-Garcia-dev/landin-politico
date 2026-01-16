@@ -11,30 +11,58 @@ export default function RegistrationForm() {
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
+    phone: "", // Nuevo campo: Teléfono
     cedula: "",
+    address: "", // Nuevo campo: Ubicación
     role: "",
     acceptPolicy: false,
   })
 
   const [submitted, setSubmitted] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false) // Estado para carga
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Here you would typically send the data to your backend
-    console.log("Form submitted:", formData)
-    setSubmitted(true)
+    setIsSubmitting(true)
 
-    // Reset form after 3 seconds
-    setTimeout(() => {
-      setSubmitted(false)
-      setFormData({
-        fullName: "",
-        email: "",
-        cedula: "",
-        role: "",
-        acceptPolicy: false,
-      })
-    }, 3000)
+    try {
+      // Envío de datos al Webhook
+      const response = await fetch(
+        "https://n8n.magnificapec.com/webhook/5358648a-b54c-4282-8a69-2e24cdacd683-politico",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      )
+
+      if (response.ok) {
+        setSubmitted(true)
+        // Reset form after 3 seconds
+        setTimeout(() => {
+          setSubmitted(false)
+          setFormData({
+            fullName: "",
+            email: "",
+            phone: "",
+            cedula: "",
+            address: "",
+            role: "",
+            acceptPolicy: false,
+          })
+        }, 3000)
+      } else {
+        console.error("Error al enviar el formulario")
+        alert("Hubo un error al enviar tus datos. Por favor intenta nuevamente.")
+      }
+    } catch (error) {
+      console.error("Error de red:", error)
+      alert("Error de conexión. Por favor verifica tu internet.")
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -109,44 +137,82 @@ export default function RegistrationForm() {
                   />
                 </div>
 
-                {/* Email */}
-                <div>
-                  <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
-                    Correo Electrónico <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    required
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-[#003893] focus:ring-2 focus:ring-[#003893]/20 outline-none transition-all"
-                    placeholder="correo@ejemplo.com"
-                  />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Phone Number - Nuevo Campo */}
+                  <div>
+                    <label htmlFor="phone" className="block text-sm font-semibold text-gray-700 mb-2">
+                      Número de Teléfono <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      required
+                      value={formData.phone}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-[#003893] focus:ring-2 focus:ring-[#003893]/20 outline-none transition-all"
+                      placeholder="Ej: 300 123 4567"
+                    />
+                  </div>
+
+                  {/* Email */}
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
+                      Correo Electrónico <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      required
+                      value={formData.email}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-[#003893] focus:ring-2 focus:ring-[#003893]/20 outline-none transition-all"
+                      placeholder="correo@ejemplo.com"
+                    />
+                  </div>
                 </div>
 
-                {/* Cedula */}
-                <div>
-                  <label htmlFor="cedula" className="block text-sm font-semibold text-gray-700 mb-2">
-                    Cédula <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="cedula"
-                    name="cedula"
-                    required
-                    value={formData.cedula}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-[#003893] focus:ring-2 focus:ring-[#003893]/20 outline-none transition-all"
-                    placeholder="Número de cédula"
-                  />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Cedula */}
+                  <div>
+                    <label htmlFor="cedula" className="block text-sm font-semibold text-gray-700 mb-2">
+                      Cédula <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="cedula"
+                      name="cedula"
+                      required
+                      value={formData.cedula}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-[#003893] focus:ring-2 focus:ring-[#003893]/20 outline-none transition-all"
+                      placeholder="Número de cédula"
+                    />
+                  </div>
+
+                  {/* Location - Nuevo Campo */}
+                  <div>
+                    <label htmlFor="address" className="block text-sm font-semibold text-gray-700 mb-2">
+                      ¿Dónde estás ubicado? <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="address"
+                      name="address"
+                      required
+                      value={formData.address}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-[#003893] focus:ring-2 focus:ring-[#003893]/20 outline-none transition-all"
+                      placeholder="Barrio, casa, etc."
+                    />
+                  </div>
                 </div>
 
                 {/* Role Selection */}
                 <div>
                   <label htmlFor="role" className="block text-lg font-semibold text-gray-700 mb-2">
-                    ¿Cúal es tu función dentro de la organización? <span className="text-red-500">*</span>
+                    ¿Cuál es tu función dentro de la organización? <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
@@ -183,9 +249,10 @@ export default function RegistrationForm() {
                 {/* Submit Button */}
                 <Button
                   type="submit"
+                  disabled={isSubmitting}
                   className="w-full bg-gradient-to-r from-[#003893] to-[#0052cc] hover:from-[#002870] hover:to-[#003f9e] text-white font-bold py-4 text-lg rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
                 >
-                  ENVIAR MIS DATOS
+                  {isSubmitting ? "ENVIANDO..." : "ENVIAR MIS DATOS"}
                 </Button>
               </form>
             )}
